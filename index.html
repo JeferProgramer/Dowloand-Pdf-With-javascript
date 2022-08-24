@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>How to download files using JavaScript</title>
+</head>
+
+<body>
+    <button onclick="download()">
+        Download Image
+    </button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js">
+    </script>
+    <script>
+        function download() {
+            axios({
+                url: 'https://www.sigmaelectronica.net/manuals/LRS-150-12.pdf',
+                method: 'GET',
+                responseType: 'blob'
+            },{
+                
+                'mode': 'cors',
+                'headers': {
+                    'Access-Control-Allow-Origin': '*',
+                }
+            })
+                .then((response) => {
+                    const url = window.URL
+                        .createObjectURL(new Blob([response.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', 'ficha.pdf');
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                })
+        }
+
+    </script>
+</body>
+
+</html>
